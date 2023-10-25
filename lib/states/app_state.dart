@@ -24,7 +24,9 @@ class AppStates with ChangeNotifier {
   onLogOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("login", false);
+    prefs.setBool("company", false);
     isLoggedIn = false;
+    isCompanySelected = false;
     notifyListeners();
   }
 

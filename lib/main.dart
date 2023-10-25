@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: RouterHelper.router(
+      routerConfig: RouterHelper.routeConfig(
           context.watch<AppStates>().getLoginStatus,
           context.watch<AppStates>().getCompanyStatus),
       title: 'Flutter Demo',

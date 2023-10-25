@@ -10,7 +10,7 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 final _settingsShellNavKey = GlobalKey<NavigatorState>();
 
 class RouterHelper {
-  static GoRouter router(bool loginStatus, bool companyStatus) {
+  static GoRouter routeConfig(bool loginStatus, bool companyStatus) {
     return GoRouter(
       errorBuilder: (context, state) {
         return const Unknown();
