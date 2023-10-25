@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:navpoc/states/app_state.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
 
   _onLogin(BuildContext context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool("login", true);
-    prefs.setBool("company", false);
+    context.read<AppStates>().onLogin();
     if (context.mounted) {
       context.go(Uri(
         path: '/companySelection',
@@ -164,7 +163,7 @@ class Unknown extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: Text("Unknown"),
+        child: Text("Page Not found"),
       ),
     );
   }

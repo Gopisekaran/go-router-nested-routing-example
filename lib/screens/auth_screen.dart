@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:navpoc/main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:navpoc/states/app_state.dart';
+import 'package:provider/provider.dart';
 
 class CompanySelection extends StatelessWidget {
   const CompanySelection({super.key});
 
   _onSelect(BuildContext context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool("company", true);
+    context.read<AppStates>().onSelectCompany();
     if (context.mounted) {
       context.go(Uri(
         path: '/',
@@ -17,7 +16,7 @@ class CompanySelection extends StatelessWidget {
   }
 
   _onLogout(BuildContext context) {
-    StatesDetails.onLogout();
+    context.read<AppStates>().onLogOut();
     context.go(Uri(
       path: '/login',
     ).toString());
