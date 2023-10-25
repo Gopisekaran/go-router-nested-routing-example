@@ -49,26 +49,13 @@ final _router = GoRouter(
     bool isLoggedIn = prefs.getBool("login") ?? false;
     bool isCompanySelected = prefs.getBool("company") ?? false;
 
-    if (isLoggedIn) {
-      if (state.uri.path == '/register' || state.uri.path == '/login') {
-        if (isCompanySelected) {
-          if (state.uri.path == '/companySelection') {
-            return '/';
-          }
-        } else {
-          return '/companySelection';
-        }
-      }
-      if (isCompanySelected) {
-        if (state.uri.path == '/companySelection') {
-          return '/';
-        }
-      } else {
-        return '/companySelection';
-      }
-    } else if (state.uri.path != '/register') {
+    if (!isLoggedIn && state.uri.path != '/register') {
       return '/login';
     }
+    if (isLoggedIn && !isCompanySelected) {
+      return '/companySelection';
+    }
+
     return null;
   },
   navigatorKey: _rootNavigatorKey,
@@ -128,16 +115,52 @@ final _router = GoRouter(
               ])
         ]),
     GoRoute(
+      redirect: (context, state) async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        bool isLoggedIn = prefs.getBool("login") ?? false;
+        bool isCompanySelected = prefs.getBool("company") ?? false;
+        if (isLoggedIn && isCompanySelected) {
+          return '/';
+        }
+        if (isLoggedIn && !isCompanySelected) {
+          return '/companySelection';
+        }
+        return null;
+      },
       parentNavigatorKey: _rootNavigatorKey,
       path: '/login',
       builder: (context, state) => const Login(),
     ),
     GoRoute(
+      redirect: (context, state) async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        bool isLoggedIn = prefs.getBool("login") ?? false;
+        bool isCompanySelected = prefs.getBool("company") ?? false;
+        if (isLoggedIn && isCompanySelected) {
+          return '/';
+        }
+        if (!isLoggedIn) {
+          return '/login';
+        }
+        return null;
+      },
       parentNavigatorKey: _rootNavigatorKey,
       path: '/companySelection',
       builder: (context, state) => const CompanySelection(),
     ),
     GoRoute(
+      redirect: (context, state) async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        bool isLoggedIn = prefs.getBool("login") ?? false;
+        bool isCompanySelected = prefs.getBool("company") ?? false;
+        if (isLoggedIn && isCompanySelected) {
+          return '/';
+        }
+        if (isLoggedIn && !isCompanySelected) {
+          return '/companySelection';
+        }
+        return null;
+      },
       parentNavigatorKey: _rootNavigatorKey,
       path: '/register',
       builder: (context, state) => const Register(),
@@ -185,7 +208,7 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       body: Row(
         children: [
-          Container(
+          SizedBox(
             width: 280,
             child: Column(children: [
               ListTile(
@@ -259,7 +282,7 @@ class SettingsWrapper extends StatelessWidget {
     return Scaffold(
       body: Row(
         children: [
-          Container(
+          SizedBox(
             width: 280,
             child: Column(children: [
               ListTile(
