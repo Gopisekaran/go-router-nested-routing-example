@@ -10,9 +10,14 @@ class DashBoardShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
       body: Row(
         children: [
-          SizedBox(
+          Container(
+            decoration:
+                const BoxDecoration(border: Border(right: BorderSide())),
             width: 280,
             child: Column(children: [
               ListTile(

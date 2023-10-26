@@ -8,9 +8,14 @@ class SettingsShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+      ),
       body: Row(
         children: [
-          SizedBox(
+          Container(
+            decoration: const BoxDecoration(
+                boxShadow: [], border: Border(right: BorderSide())),
             width: 280,
             child: Column(children: [
               ListTile(
