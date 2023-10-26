@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:navpoc/states/app_state.dart';
 import 'package:provider/provider.dart';
 
-class Login extends StatelessWidget {
+class LoginController extends GetxController {
+  var loading = false.obs;
+  var textValue = 'hello'.obs;
+}
+
+class Login extends StatefulWidget {
   const Login({super.key});
 
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
   _onLogin(BuildContext context) async {
     context.read<AppStates>().onLogin();
     if (context.mounted) {
@@ -16,25 +27,43 @@ class Login extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    print("disposed init");
+    Get.put(LoginController());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    print("disposed login");
+    Get.delete<LoginController>();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    LoginController ctrl = Get.find<LoginController>();
     return Scaffold(
-      body: Center(
-          child: Column(
-        children: [
-          ElevatedButton(
-              onPressed: () {
-                _onLogin(context);
-              },
-              child: const Text('Login')),
-          ElevatedButton(
-              onPressed: () {
-                context.go(Uri(
-                  path: '/register',
-                ).toString());
-              },
-              child: const Text('Register')),
-        ],
-      )),
+      body: Obx(() {
+        return Center(
+            child: Column(
+          children: [
+            ElevatedButton(
+                onPressed: () {
+                  _onLogin(context);
+                },
+                child: const Text('Login')),
+            Text(ctrl.textValue.value),
+            ElevatedButton(
+                onPressed: () {
+                  context.go(Uri(
+                    path: '/register',
+                  ).toString());
+                },
+                child: const Text('Register')),
+          ],
+        ));
+      }),
     );
   }
 }
@@ -65,15 +94,59 @@ class SR1 extends StatelessWidget {
   }
 }
 
-class SR2 extends StatelessWidget {
+class SR2Controller extends GetxController {
+  var loading = false.obs;
+  var textValue = 'hello'.obs;
+}
+
+class SR2 extends StatefulWidget {
   const SR2({super.key});
 
   @override
+  State<SR2> createState() => _SR2State();
+}
+
+class _SR2State extends State<SR2> {
+  _onLogin(BuildContext context) async {
+    context.read<AppStates>().onLogin();
+    if (context.mounted) {
+      context.go(Uri(
+        path: '/companySelection',
+      ).toString());
+    }
+  }
+
+  @override
+  void initState() {
+    print("init sr2");
+    Get.put(SR2Controller());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    print("disposed sr2");
+    Get.delete<SR2Controller>();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("SR2"),
-      ),
+    SR2Controller ctrl = Get.find<SR2Controller>();
+    return Scaffold(
+      body: Obx(() {
+        return Center(
+            child: Column(
+          children: [
+            ElevatedButton(
+                onPressed: () {
+                  ctrl.textValue.value = 'updated';
+                },
+                child: Text('update text')),
+            Text(ctrl.textValue.value),
+          ],
+        ));
+      }),
     );
   }
 }
