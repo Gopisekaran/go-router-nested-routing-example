@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:navpoc/controllers/controllers.dart';
 import 'package:navpoc/states/app_state.dart';
 import 'package:provider/provider.dart';
-
-class LoginController extends GetxController {
-  var loading = false.obs;
-  var textValue = 'hello'.obs;
-}
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -18,7 +14,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   _onLogin(BuildContext context) async {
-    context.read<AppStates>().onLogin();
+    AppStateGetx.instance.onLogin();
     if (context.mounted) {
       context.go(Uri(
         path: '/companySelection',
@@ -28,14 +24,12 @@ class _LoginState extends State<Login> {
 
   @override
   void initState() {
-    print("disposed init");
     Get.put(LoginController());
     super.initState();
   }
 
   @override
   void dispose() {
-    print("disposed login");
     Get.delete<LoginController>();
     super.dispose();
   }
@@ -54,6 +48,12 @@ class _LoginState extends State<Login> {
                 },
                 child: const Text('Login')),
             Text(ctrl.textValue.value),
+            Text(ctrl.update1.value.toString()),
+            ElevatedButton(
+                onPressed: () {
+                  ctrl.update1.value = ctrl.update1.value + 1;
+                },
+                child: const Text('plus')),
             ElevatedButton(
                 onPressed: () {
                   context.go(Uri(
@@ -81,22 +81,48 @@ class Register extends StatelessWidget {
   }
 }
 
-class SR1 extends StatelessWidget {
-  const SR1({super.key});
+abstract class CompanyShellStateFuWidget extends StatefulWidget {
+  final String company;
+
+  const CompanyShellStateFuWidget({super.key, required this.company});
+}
+
+class SR1 extends CompanyShellStateFuWidget {
+  const SR1({super.key, required super.company});
+
+  @override
+  State<SR1> createState() => _SR1State();
+}
+
+class _SR1State extends State<SR1> {
+  @override
+  void initState() {
+    print("init sr2");
+    Get.put(SR1Controller("sr1 happiest"));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    print("disposed sr2");
+    Get.delete<SR1Controller>();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    SR1Controller ctrl = Get.find<SR1Controller>();
+    return Scaffold(
       body: Center(
-        child: Text("SR1"),
+        child: Column(
+          children: [
+            Text(ctrl.textValue),
+            const Text("SR1"),
+          ],
+        ),
       ),
     );
   }
-}
-
-class SR2Controller extends GetxController {
-  var loading = false.obs;
-  var textValue = 'hello'.obs;
 }
 
 class SR2 extends StatefulWidget {
@@ -108,7 +134,7 @@ class SR2 extends StatefulWidget {
 
 class _SR2State extends State<SR2> {
   _onLogin(BuildContext context) async {
-    context.read<AppStates>().onLogin();
+    AppStateGetx.instance.onLogin();
     if (context.mounted) {
       context.go(Uri(
         path: '/companySelection',
@@ -118,14 +144,12 @@ class _SR2State extends State<SR2> {
 
   @override
   void initState() {
-    print("init sr2");
-    Get.put(SR2Controller());
+    Get.put(SR2Controller("sr2 happiest"));
     super.initState();
   }
 
   @override
   void dispose() {
-    print("disposed sr2");
     Get.delete<SR2Controller>();
     super.dispose();
   }
@@ -134,20 +158,12 @@ class _SR2State extends State<SR2> {
   Widget build(BuildContext context) {
     SR2Controller ctrl = Get.find<SR2Controller>();
     return Scaffold(
-      body: Obx(() {
-        return Center(
+        body: Center(
             child: Column(
-          children: [
-            ElevatedButton(
-                onPressed: () {
-                  ctrl.textValue.value = 'updated';
-                },
-                child: Text('update text')),
-            Text(ctrl.textValue.value),
-          ],
-        ));
-      }),
-    );
+      children: [
+        Text(ctrl.textValue),
+      ],
+    )));
   }
 }
 

@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/instance_manager.dart';
 import 'package:navpoc/router/app_router.dart';
 import 'package:navpoc/states/app_state.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 void main() async {
   setPathUrlStrategy();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool isLoggedIn = prefs.getBool("login") ?? false;
-  bool isCompanySelected = prefs.getBool("company") ?? false;
+  Get.put(AppStateGetx());
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-            create: (_) => AppStates(isLoggedIn, isCompanySelected))
-      ],
-      child: const MyApp(),
-    ),
+    const MyApp(),
   );
 }
 
@@ -38,15 +30,15 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: RouterHelper.routeConfig(
-          context.watch<AppStates>().getLoginStatus,
-          context.watch<AppStates>().getCompanyStatus),
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-    );
+    return Obx(() => MaterialApp.router(
+          routerConfig: RouterHelper.routeConfig(
+              AppStateGetx.instance.isLoggedIn.value,
+              AppStateGetx.instance.isCompanySelected.value),
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+        ));
   }
 }

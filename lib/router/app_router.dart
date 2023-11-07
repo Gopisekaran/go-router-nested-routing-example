@@ -36,7 +36,11 @@ class RouterHelper {
             routes: [
               GoRoute(
                 path: '/',
-                builder: (context, state) => const SR1(),
+                builder: (context, state) {
+                  return const SR1(
+                    company: 'value',
+                  );
+                },
               ),
               GoRoute(
                 path: '/sr2',

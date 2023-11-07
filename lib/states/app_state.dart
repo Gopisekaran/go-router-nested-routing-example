@@ -1,48 +1,57 @@
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AppStates with ChangeNotifier {
-  bool isLoggedIn = false;
-  bool isCompanySelected = false;
+class AppStateGetx extends GetxController {
+  Rx<bool> isLoggedIn = Rx(false);
+  Rx<bool> isCompanySelected = Rx(false);
+  int dataValue = 1;
 
-  AppStates(this.isLoggedIn, this.isCompanySelected);
+  @override
+  void onInit() {
+    initLoad();
+    super.onInit();
+  }
+
+  static AppStateGetx instance = Get.find();
+
+  updateData() {
+    dataValue = dataValue + 1;
+  }
 
   initLoad() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    isLoggedIn = prefs.getBool("login") ?? false;
-    isCompanySelected = prefs.getBool("company") ?? false;
-    notifyListeners();
+    isLoggedIn.value = prefs.getBool("login") ?? false;
+    isCompanySelected.value = prefs.getBool("company") ?? false;
   }
 
   onLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("login", true);
-    isLoggedIn = true;
-    notifyListeners();
+    isLoggedIn.value = true;
   }
 
   onLogOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("login", false);
     prefs.setBool("company", false);
-    isLoggedIn = false;
-    isCompanySelected = false;
-    notifyListeners();
+    isLoggedIn.value = false;
+    isCompanySelected.value = false;
   }
 
   onSelectCompany() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("company", true);
-    isCompanySelected = true;
-    notifyListeners();
+    isCompanySelected.value = true;
   }
 
   onRemoveCompany() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("company", false);
-    isCompanySelected = false;
+    isCompanySelected.value = false;
   }
 
-  bool get getLoginStatus => isLoggedIn;
-  bool get getCompanyStatus => isCompanySelected;
+  String get getDataValue => dataValue.toString();
+  bool get getLoginStatus => isLoggedIn.value;
+  bool get getCompanyStatus => isCompanySelected.value;
 }

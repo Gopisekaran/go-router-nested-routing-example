@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:navpoc/states/app_state.dart';
-import 'package:provider/provider.dart';
 
 class CompanySelection extends StatelessWidget {
   const CompanySelection({super.key});
 
   _onSelect(BuildContext context) async {
-    context.read<AppStates>().onSelectCompany();
+    AppStateGetx.instance.onSelectCompany();
     if (context.mounted) {
       context.go(Uri(
         path: '/',
@@ -16,7 +15,7 @@ class CompanySelection extends StatelessWidget {
   }
 
   _onLogout(BuildContext context) {
-    context.read<AppStates>().onLogOut();
+    AppStateGetx.instance.onLogOut();
     context.go(Uri(
       path: '/login',
     ).toString());

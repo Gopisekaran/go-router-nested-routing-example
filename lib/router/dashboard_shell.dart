@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:navpoc/states/app_state.dart';
-import 'package:provider/provider.dart';
 
 class DashBoardShell extends StatelessWidget {
   final Widget child;
@@ -23,7 +22,7 @@ class DashBoardShell extends StatelessWidget {
               ListTile(
                 title: const Text("Logout"),
                 onTap: () async {
-                  context.read<AppStates>().onLogOut();
+                  AppStateGetx.instance.onLogOut();
                   if (context.mounted) {
                     context.go(Uri(
                       path: '/login',
