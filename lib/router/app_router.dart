@@ -5,9 +5,9 @@ import 'package:navpoc/router/settings_shell.dart';
 import 'package:navpoc/screens/auth_screen.dart';
 import 'package:navpoc/screens/no_auths.dart';
 
-final _rootNavigatorKey = GlobalKey<NavigatorState>();
-final _shellNavigatorKey = GlobalKey<NavigatorState>();
-final _settingsShellNavKey = GlobalKey<NavigatorState>();
+final rootNavigatorKey = GlobalKey<NavigatorState>();
+final shellNavigatorKey = GlobalKey<NavigatorState>();
+final settingsShellNavKey = GlobalKey<NavigatorState>();
 
 class RouterHelper {
   static GoRouter routeConfig(bool loginStatus, bool companyStatus) {
@@ -25,11 +25,11 @@ class RouterHelper {
 
         return null;
       },
-      navigatorKey: _rootNavigatorKey,
+      navigatorKey: rootNavigatorKey,
       initialLocation: '/',
       routes: [
         ShellRoute(
-            navigatorKey: _shellNavigatorKey,
+            navigatorKey: shellNavigatorKey,
             builder: (context, state, child) {
               return DashBoardShell(child: child);
             },
@@ -51,7 +51,7 @@ class RouterHelper {
                 builder: (context, state) => const SR4(),
               ),
               ShellRoute(
-                  navigatorKey: _settingsShellNavKey,
+                  navigatorKey: settingsShellNavKey,
                   builder: (context, state, child) {
                     return SettingsShell(child: child);
                   },

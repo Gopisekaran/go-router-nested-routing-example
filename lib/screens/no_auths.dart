@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:navpoc/router/app_router.dart';
 import 'package:navpoc/states/app_state.dart';
 import 'package:provider/provider.dart';
 
@@ -9,7 +10,7 @@ class Login extends StatelessWidget {
   _onLogin(BuildContext context) async {
     context.read<AppStates>().onLogin();
     if (context.mounted) {
-      context.go(Uri(
+      rootNavigatorKey.currentContext!.go(Uri(
         path: '/companySelection',
       ).toString());
     }
