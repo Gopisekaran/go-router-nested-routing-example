@@ -1,13 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:navpoc/router/dashboard_shell.dart';
-import 'package:navpoc/router/settings_shell.dart';
-import 'package:navpoc/screens/auth_screen.dart';
-import 'package:navpoc/screens/no_auths.dart';
+import 'package:navpoc/router/routes.dart';
+import 'package:navpoc/router/shells/main_shell.dart';
+import 'package:navpoc/router/shells/sub_shell.dart';
 
-final rootNavigatorKey = GlobalKey<NavigatorState>();
-final shellNavigatorKey = GlobalKey<NavigatorState>();
-final settingsShellNavKey = GlobalKey<NavigatorState>();
+import 'package:navpoc/screens/auth_screen.dart';
+import 'package:navpoc/screens/login.dart';
+import 'package:navpoc/screens/no_auths.dart';
+import 'package:navpoc/screens/register.dart';
 
 class RouterHelper {
   static GoRouter routeConfig(bool loginStatus, bool companyStatus) {
@@ -17,60 +16,60 @@ class RouterHelper {
       },
       redirect: (context, state) {
         if (!loginStatus && state.uri.path != '/register') {
-          return '/login';
+          return NoAuthRoutes.login.route;
         }
         if (loginStatus && !companyStatus) {
-          return '/companySelection';
+          return MainShellRoutes.selectuser.route;
         }
 
         return null;
       },
-      navigatorKey: rootNavigatorKey,
       initialLocation: '/',
       routes: [
         ShellRoute(
-            navigatorKey: shellNavigatorKey,
             builder: (context, state, child) {
               return DashBoardShell(child: child);
             },
             routes: [
               GoRoute(
-                path: '/',
-                builder: (context, state) => const SR1(),
+                name: MainShellRoutes.home.name,
+                path: MainShellRoutes.home.route,
+                builder: (context, state) => const Home(),
               ),
               GoRoute(
-                path: '/sr2',
-                builder: (context, state) => const SR2(),
+                name: MainShellRoutes.profile.name,
+                path: MainShellRoutes.profile.route,
+                builder: (context, state) => const Profile(),
               ),
               GoRoute(
-                path: '/sr3',
-                builder: (context, state) => const SR3(),
-              ),
-              GoRoute(
-                path: '/sr4',
-                builder: (context, state) => const SR4(),
+                name: MainShellRoutes.notifications.name,
+                path: MainShellRoutes.notifications.route,
+                builder: (context, state) => const Notifications(),
               ),
               ShellRoute(
-                  navigatorKey: settingsShellNavKey,
                   builder: (context, state, child) {
                     return SettingsShell(child: child);
                   },
                   routes: [
                     GoRoute(
-                        path: '/settings',
-                        builder: (context, state) => const Settings1(),
+                        name: MainShellRoutes.settings.name,
+                        path: MainShellRoutes.settings.route,
+                        builder: (context, state) => const ProfileSettings(),
                         routes: [
                           GoRoute(
-                            path: 'settings2',
-                            builder: (context, state) => const Settings2(),
+                            name: SettingsShellRoutes.general.name,
+                            path: SettingsShellRoutes.general.route,
+                            builder: (context, state) => const General(),
                           ),
                           GoRoute(
-                            path: 'settings3',
-                            builder: (context, state) => const Settings3(),
+                            name: SettingsShellRoutes.theme.name,
+                            path: SettingsShellRoutes.theme.route,
+                            builder: (context, state) => const ThemeSettings(),
                           ),
                           GoRoute(
-                            path: 'settings4',
-                            builder: (context, state) => const Settings4(),
+                            name: SettingsShellRoutes.others.name,
+                            path: SettingsShellRoutes.others.route,
+                            builder: (context, state) => const OthersSettings(),
                           ),
                         ]),
                   ])
@@ -81,11 +80,12 @@ class RouterHelper {
               return '/';
             }
             if (loginStatus && !companyStatus) {
-              return '/companySelection';
+              return MainShellRoutes.selectuser.route;
             }
             return null;
           },
-          path: '/login',
+          name: NoAuthRoutes.login.name,
+          path: NoAuthRoutes.login.route,
           builder: (context, state) => const Login(),
         ),
         GoRoute(
@@ -94,11 +94,12 @@ class RouterHelper {
               return '/';
             }
             if (!loginStatus) {
-              return '/login';
+              return NoAuthRoutes.login.route;
             }
             return null;
           },
-          path: '/companySelection',
+          name: MainShellRoutes.selectuser.name,
+          path: MainShellRoutes.selectuser.route,
           builder: (context, state) => const CompanySelection(),
         ),
         GoRoute(
@@ -107,11 +108,12 @@ class RouterHelper {
               return '/';
             }
             if (loginStatus && !companyStatus) {
-              return '/companySelection';
+              return MainShellRoutes.selectuser.route;
             }
             return null;
           },
-          path: '/register',
+          name: NoAuthRoutes.register.name,
+          path: NoAuthRoutes.register.route,
           builder: (context, state) => const Register(),
         ),
       ],

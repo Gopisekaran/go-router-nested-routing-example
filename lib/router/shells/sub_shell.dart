@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:navpoc/router/routes.dart';
 
 class SettingsShell extends StatelessWidget {
   final Widget child;
@@ -19,35 +19,27 @@ class SettingsShell extends StatelessWidget {
             width: 280,
             child: Column(children: [
               ListTile(
-                title: const Text("settings1"),
+                title: const Text("Profile Settings"),
                 onTap: () {
-                  context.go(Uri(
-                    path: '/settings',
-                  ).toString());
+                  SettingsShellRoutes.profileSettings.go(context);
                 },
               ),
               ListTile(
-                title: const Text("settings2"),
+                title: const Text("General"),
                 onTap: () {
-                  context.go(Uri(
-                    path: '/settings/settings2',
-                  ).toString());
+                  SettingsShellRoutes.general.go(context);
                 },
               ),
               ListTile(
-                title: const Text("settings3"),
+                title: const Text("Theme"),
                 onTap: () {
-                  context.go(Uri(
-                    path: '/settings/settings3',
-                  ).toString());
+                  SettingsShellRoutes.theme.go(context);
                 },
               ),
               ListTile(
-                title: const Text("settings4"),
+                title: const Text("Others"),
                 onTap: () {
-                  context.go(Uri(
-                    path: '/settings/settings4',
-                  ).toString());
+                  SettingsShellRoutes.others.go(context);
                 },
               ),
             ]),

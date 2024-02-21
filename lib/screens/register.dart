@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Unknown extends StatelessWidget {
-  const Unknown({super.key});
+class Register extends StatelessWidget {
+  const Register({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: Text("Page Not found"),
+        child: Text("Register"),
       ),
     );
   }

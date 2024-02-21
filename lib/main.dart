@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navpoc/router/app_router.dart';
+import 'package:navpoc/router/router_config.dart';
 import 'package:navpoc/states/app_state.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
