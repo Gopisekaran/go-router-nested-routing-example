@@ -1,16 +1,5 @@
-# navpoc
+# Nested and URL Routing in Flutter using Go-router
 
-A new Flutter project.
+Title: Simplifying Nested Routing Implementation with Go Router in Flutter
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Flutter offers a powerful way to manage navigation through the Navigator 2.0 system, but configuring routers can be complex, especially when dealing with nested routing. In this guide, we'll explore a straightforward approach to implementing nested routing using the Go Router package. This method is not only easy to understand but also scalable and maintainable for larger Flutter projects.
