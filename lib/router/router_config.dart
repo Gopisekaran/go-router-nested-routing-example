@@ -28,7 +28,7 @@ class RouterHelper {
       routes: [
         ShellRoute(
             builder: (context, state, child) {
-              return DashBoardShell(child: child);
+              return DashBoardShell(path: state.uri, child: child);
             },
             routes: [
               GoRoute(

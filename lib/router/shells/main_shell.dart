@@ -4,8 +4,9 @@ import 'package:navpoc/router/routes.dart';
 import 'package:navpoc/states/app_state.dart';
 
 class DashBoardShell extends StatefulWidget {
+  final Uri path;
   final Widget child;
-  const DashBoardShell({super.key, required this.child});
+  const DashBoardShell({super.key, required this.child, required this.path});
 
   @override
   State<DashBoardShell> createState() => _DashBoardShellState();
@@ -19,6 +20,25 @@ class _DashBoardShellState extends State<DashBoardShell> {
     setState(() {
       selectedIndex = index;
     });
+  }
+
+  _setupSelectedMenu() {
+    if (widget.path.path != '/') {
+      for (int i = 0; i < menuItems.length; i++) {
+        if (widget.path.pathSegments
+            .contains(menuItems[i].routeDetails.route.substring(1))) {
+          setState(() {
+            selectedIndex = i;
+          });
+        }
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    _setupSelectedMenu();
+    super.initState();
   }
 
   @override
